@@ -1,4 +1,4 @@
-
+// Array of all enemies
 var allEnemies = [];
 // Enemies our player must avoid
 var Enemy = function(yLoc,i) {
@@ -37,28 +37,41 @@ var Player = function(){
     this.x = 2;
     this.y = 0;
 };
-// This class requires an update(), render() and
-// a handleInput() method.
-Player.prototype.update = function(){
-     this.checkCollisions();
+//player update function to check collision
+Player.prototype.update = function(dt){
+    this.checkCollisions();
 };
-
+// Draw player screen
 Player.prototype.render = function(){
+        console.log("x"+this.x+"y"+this.y);
       ctx.drawImage(Resources.get(this.sprite),this.x * 101, -(this.y * 80) + 400);
 };
-
+//reset player and if collided or won
 Player.prototype.reset = function(){
     console.log("inside player reset");
     this.x = 2;
     this.y = 0;
 };
-
+// collison algorith
 Player.prototype.checkCollisions = function(){
+
     for (var i = 0; i < allEnemies.length; i++) {
+         // alert(allEnemies[i].x);
+        console.log("allEnemies[i].x - "+allEnemies[i].x+"allEnemies[i].y - "+allEnemies[i].y+"this.y - "+this.y);
+        /*if (this.x >= allEnemies[i].x + 0 && 
+            this.x < allEnemies[i].x + 44 && 
+            (this.y + 1) >= allEnemies[i].y && 
+            (this.y - 9) < allEnemies[i].y) {
+                 if (((this.y-9)==(allEnemies[i].y)) && (this.x > allEnemies[i].x - 75) && (this.x < allEnemies[i].x+75)) {*/
+                  /*  if (this.x - 3 < allEnemies[i].x + this.x  &&
+                        this.x + (this.x) > allEnemies[i].x &&
+                        (this.y- 0) < allEnemies[i].y + (this.y) &&
+                        ((this.y - 4))+ (this.y) > allEnemies[i].y) {*/
+
         if (this.x >= allEnemies[i].x + 0 && 
             this.x < allEnemies[i].x + 44 && 
-            this.y >= allEnemies[i].y + 0 && 
-            this.y < allEnemies[i].y + 44) {
+            this.y  >= allEnemies[i].y + 0 && 
+            this.y  < allEnemies[i].y + 44) {
             console.log("Splash--");
             window.alert("You didnt win the game. Try again!");
             console.log("enemy" + i + ": " + allEnemies[i].y + " player: " + this.y);
@@ -66,6 +79,7 @@ Player.prototype.checkCollisions = function(){
         }
     }
 };
+//handling arrow inputs for player
 Player.prototype.handleInput = function(allowedKeys){
     switch(allowedKeys){
         case 'left':
@@ -107,7 +121,9 @@ Player.prototype.handleInput = function(allowedKeys){
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var enemy = function(){
+    // array of enemies for particular position
     var yArray = [1.5,3,4.5];
+    // speed of enemies
     var speedArray = [2,4,2.5];
     for (var i = 0; i < 3; i++) {
         enemy = new Enemy(yArray[i],speedArray[i]);
@@ -116,6 +132,7 @@ var enemy = function(){
         
      } 
 };
+//enemy
 enemy();
 console.log("allEnemies array"+allEnemies.length);
 // Place the player object in a variable called player
