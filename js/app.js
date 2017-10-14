@@ -98,7 +98,6 @@ Player.prototype.handleInput = function(allowedKeys){
     }
     if (this.y >= 5 ) {
         console.log("Won");
-        console.log("enemy"+ ": " + allEnemies[i].y + " player: " + this.y);
         window.alert("Congragulations you won!!");
         this.reset();
     }
