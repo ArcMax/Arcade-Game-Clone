@@ -9,7 +9,7 @@ var Enemy = function(yLoc,i) {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.speed = Math.floor(Math.random()*i); 
-     this.x = -2;
+     this.x = 0;
       this.y = yLoc;
 };
 // Update the enemy's position, required method for game
@@ -19,7 +19,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x > 5) {
-        this.x = -2;
+        this.x = 0;
     }else{
         this.x += this.speed * dt;
     }
@@ -39,11 +39,11 @@ var Player = function(){
 };
 //player update function to check collision
 Player.prototype.update = function(dt){
-    this.checkCollisions();
+    console.log(this.x+":"+this.y);
+    this.checkCollisions(this.x, this.y);
 };
 // Draw player screen
 Player.prototype.render = function(){
-        console.log("x"+this.x+"y"+this.y);
       ctx.drawImage(Resources.get(this.sprite),this.x * 101, -(this.y * 80) + 400);
 };
 //reset player and if collided or won
@@ -53,30 +53,29 @@ Player.prototype.reset = function(){
     this.y = 0;
 };
 // collison algorith
-Player.prototype.checkCollisions = function(){
-
-    for (var i = 0; i < allEnemies.length; i++) {
-         // alert(allEnemies[i].x);
-        console.log("allEnemies[i].x - "+allEnemies[i].x+"allEnemies[i].y - "+allEnemies[i].y+"this.y - "+this.y);
-        /*if (this.x >= allEnemies[i].x + 0 && 
-            this.x < allEnemies[i].x + 44 && 
-            (this.y + 1) >= allEnemies[i].y && 
-            (this.y - 9) < allEnemies[i].y) {
-                 if (((this.y-9)==(allEnemies[i].y)) && (this.x > allEnemies[i].x - 75) && (this.x < allEnemies[i].x+75)) {*/
-                  /*  if (this.x - 3 < allEnemies[i].x + this.x  &&
-                        this.x + (this.x) > allEnemies[i].x &&
-                        (this.y- 0) < allEnemies[i].y + (this.y) &&
-                        ((this.y - 4))+ (this.y) > allEnemies[i].y) {*/
-
-        if (this.x >= allEnemies[i].x + 0 && 
-            this.x < allEnemies[i].x + 44 && 
-            this.y  >= allEnemies[i].y + 0 && 
-            this.y  < allEnemies[i].y + 44) {
-            console.log("Splash--");
-            window.alert("You didnt win the game. Try again!");
-            console.log("enemy" + i + ": " + allEnemies[i].y + " player: " + this.y);
-            this.reset()
-        }
+Player.prototype.checkCollisions = function(positionX,positionY){
+    switch(positionY){
+        case 2:
+            if(positionX == Math.floor(allEnemies[2].x) && (Math.floor(positionY + 3) == Math.floor(allEnemies[2].y))){
+                window.alert("You didnt win the game. Try again!"+allEnemies[2].x+"->"+this.y);
+                this.reset()
+            }
+        break;
+        case 3:
+           if(positionX == Math.floor(allEnemies[1].x) && positionY == Math.floor(allEnemies[1].y)){
+                window.alert("You didnt win the game. Try again!"+allEnemies[1].x+"->"+this.y);
+                this.reset()
+            }
+        break;
+        case 4:
+            console.log(allEnemies[0].x+":"+allEnemies[0].y+":"+positionY);
+            if(positionX == Math.floor(allEnemies[0].x) && (Math.floor(positionY - 3) == Math.floor(allEnemies[0].y))){
+                window.alert("You didnt win the game. Try again!"+allEnemies[0].x+"->"+this.y);
+                this.reset()
+            }
+        break;
+        default:
+            console.log("write a better algorithm, you can do you, you are genius")
     }
 };
 //handling arrow inputs for player
@@ -122,7 +121,7 @@ Player.prototype.handleInput = function(allowedKeys){
 // Place all enemy objects in an array called allEnemies
 var enemy = function(){
     // array of enemies for particular position
-    var yArray = [1.5,3,4.5];
+    var yArray = [1,3,5];
     // speed of enemies
     var speedArray = [2,4,2.5];
     for (var i = 0; i < 3; i++) {
