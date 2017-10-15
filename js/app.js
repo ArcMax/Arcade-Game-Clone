@@ -3,14 +3,12 @@ var allEnemies = [];
 // Enemies our player must avoid
 var Enemy = function(yLoc,i) {
     // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.speed = Math.floor(Math.random()*i); 
-     this.x = 0;
-      this.y = yLoc;
+    this.x = 0;
+    this.y = yLoc;
 };
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -32,15 +30,13 @@ Enemy.prototype.render = function() {
 
 // Now write your own player class
 var Player = function(){
-    console.log("player function");
     this.sprite= 'images/char-princess-girl.png';
     this.x = 2;
     this.y = 0;
 };
 //player update function to check collision
 Player.prototype.update = function(dt){
-    console.log(this.x+":"+this.y);
-    this.checkCollisions(this.x, this.y);
+    this.checkCollisions();
 };
 // Draw player screen
 Player.prototype.render = function(){
@@ -48,34 +44,30 @@ Player.prototype.render = function(){
 };
 //reset player and if collided or won
 Player.prototype.reset = function(){
-    console.log("inside player reset");
     this.x = 2;
     this.y = 0;
 };
 // collison algorith
-Player.prototype.checkCollisions = function(positionX,positionY){
-    switch(positionY){
+Player.prototype.checkCollisions = function(){
+    switch(this.y){
         case 2:
-            if(positionX == Math.floor(allEnemies[2].x) && (Math.floor(positionY + 3) == Math.floor(allEnemies[2].y))){
-                window.alert("You didnt win the game. Try again!"+allEnemies[2].x+"->"+this.y);
-                this.reset()
+            if(this.x == Math.floor(allEnemies[2].x) && (Math.floor(this.y + 3) == Math.floor(allEnemies[2].y))){
+                window.alert("You didnt win the game. Try again!");
+                this.reset();
             }
         break;
         case 3:
-           if(positionX == Math.floor(allEnemies[1].x) && positionY == Math.floor(allEnemies[1].y)){
-                window.alert("You didnt win the game. Try again!"+allEnemies[1].x+"->"+this.y);
-                this.reset()
+           if(this.x == Math.floor(allEnemies[1].x) && this.y == Math.floor(allEnemies[1].y)){
+                window.alert("You didnt win the game. Try again!");
+                this.reset();
             }
         break;
         case 4:
-            console.log(allEnemies[0].x+":"+allEnemies[0].y+":"+positionY);
-            if(positionX == Math.floor(allEnemies[0].x) && (Math.floor(positionY - 3) == Math.floor(allEnemies[0].y))){
-                window.alert("You didnt win the game. Try again!"+allEnemies[0].x+"->"+this.y);
-                this.reset()
+            if(this.x == Math.floor(allEnemies[0].x) && (Math.floor(this.y - 3) == Math.floor(allEnemies[0].y))){
+                window.alert("You didnt win the game. Try again!");
+                this.reset();
             }
         break;
-        default:
-            console.log("write a better algorithm, you can do you, you are genius")
     }
 };
 //handling arrow inputs for player
@@ -106,7 +98,6 @@ Player.prototype.handleInput = function(allowedKeys){
             }
         break;
         default:
-         console.log("default");
         alert("Use arrow keys to move arround the board");
     }
     if (this.y >= 5 ) {
@@ -122,11 +113,10 @@ Player.prototype.handleInput = function(allowedKeys){
 var enemy = function(){
     // array of enemies for particular position
     var yArray = [1,3,5];
-    // speed of enemies
+    // different speed for enemies
     var speedArray = [2,4,2.5];
     for (var i = 0; i < 3; i++) {
         enemy = new Enemy(yArray[i],speedArray[i]);
-        console.log("new enemy"+yArray[i]+"----"+speedArray[i]);
         allEnemies.push(enemy);
         
      } 
